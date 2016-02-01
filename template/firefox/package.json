@@ -1,0 +1,20 @@
+{
+	"title": "%PKG.TITLE%",
+	"name": "%PKG.NAME%",
+	"id": "%PKG.NAME%@%PKG.NAME%",
+	"version": "%PKG.VERSION%",
+	"license": "%PKG.LICENSE%",
+	"author": "%PKG.AUTHOR%",
+	"description": "%PKG.DESCRIPTION%",
+	"homepage": "%PKG.HOMEPAGE%",
+	"icon": "resource://%PKG.NAME%-at-%PKG.NAME%/data/img/%PKG.ICON48%",
+	"main": "main.js",
+	"engines": {
+		"firefox": ">=38.0a1"
+	},
+	"permissions": {
+		"cross-domain-content": [
+			"*"
+		]
+	}
+}

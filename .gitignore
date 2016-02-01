@@ -1,0 +1,21 @@
+# Mac
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+
+# Node
+node_modules
+npm-debug.log
+
+# IDE files
+.project
+.idea
+
+
+# Build files
+build/*
+
+# Distribution files (you can generate these yourself.)
+dist/*

@@ -1,0 +1,36 @@
+{
+	"name": "webdav-bookmark-sync",
+	"title": "WebDAV Bookmark Sync",
+	"version": "0.1.0",
+	"description": "A browser plug-in for Firefox and Chromium to synchronize your bookmarks to a compatible WebDAV server. This plugin is being developed mainly from my personal need to sync bookmarks to my OwnCloud instance, but it should work nicely with most WebDAV or SabreDAV implementations.",
+	"author": "Mark P. Lindhout <mark@twb.berlin>",
+	"license": "GPL-3.0",
+	"homepage": "https://github.com/marklindhout/WebDAV-Bookmark-Sync/",
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/marklindhout/WebDAV-Bookmark-Sync/"
+	},
+	"keywords": [
+		"browser extension",
+		"firefox",
+		"chrome",
+		"webdav",
+		"bookmark sync",
+		"bookmark",
+		"bookmarks",
+		"synchronization"
+	],
+	"devDependencies": {
+		"grunt": "^0.4.5",
+		"grunt-contrib-clean": "^0.6.0",
+		"grunt-contrib-compress": "^0.14.0",
+		"grunt-contrib-copy": "^0.8.0",
+		"grunt-contrib-jshint": "^0.12.0",
+		"grunt-contrib-uglify": "^0.9.1",
+		"grunt-contrib-watch": "^0.6.1",
+		"grunt-exec": "^0.4.6",
+		"grunt-image-resize": "^1.0.0",
+		"grunt-sed": "^0.1.1",
+		"load-grunt-tasks": "^3.1.0"
+	}
+}

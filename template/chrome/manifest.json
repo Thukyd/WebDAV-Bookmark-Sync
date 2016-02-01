@@ -1,0 +1,31 @@
+{
+	"manifest_version": 2,
+	"name": "%PKG.TITLE%",
+	"homepage_url": "%PKG.HOMEPAGE%",
+	"version": "%PKG.VERSION%",
+	"description": "%PKG.DESCRIPTION%",
+	"author": "%PKG.AUTHOR%",
+	"icons": {
+		"128": "data/img/icon_128.png",
+		"48": "data/img/icon_48.png",
+		"16": "data/img/icon_16.png"
+	},
+	"browser_action": {
+		"default_icon": {
+			"128": "data/img/icon_128.png",
+			"48": "data/img/icon_48.png",
+			"16": "data/img/icon_16.png"
+		},
+		"default_title": "%PKG.TITLE%"
+	},
+	"background": {
+		"scripts": [
+			"main.js"
+		],
+		"persistent": true
+	},
+	"permissions": [
+		"bookmarks",
+		"tabs"
+	]
+}
