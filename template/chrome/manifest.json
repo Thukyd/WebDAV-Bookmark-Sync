@@ -20,6 +20,7 @@
 	},
 	"background": {
 		"scripts": [
+			"data/js/vendor/URI-1.17.0.min.js",
 			"data/js/vendor/jquery-2.2.0.min.js",
 			"data/js/webdav.js",
 			"main.js"
@@ -29,7 +30,9 @@
 	"permissions": [
 		"bookmarks",
 		"tabs",
+		"storage",
 		"http://*/*",
 		"https://*/*"
-	]
+	],
+	"options_page": "options.html"
 }
