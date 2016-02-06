@@ -1,28 +1,30 @@
-// A raw WebDAV interface
+// A WebDAV interface that uses jQuery
+
+
 var WebDAV = {
 	GET: function ( url, callback ) {
-		return this.request ( 'GET', url, {}, null, 'text', callback );
+		return this.request('GET', url, {}, null, 'text', callback);
 	},
 
 	PROPFIND: function ( url, callback ) {
-		return this.request ( 'PROPFIND', url, { Depth: "1" }, null, 'xml', callback );
+		return this.request('PROPFIND', url, { Depth: "1" }, null, 'xml', callback);
 	},
 
 	MKCOL: function ( url, callback ) {
-		return this.request ( 'MKCOL', url, {}, null, 'text', callback );
+		return this.request('MKCOL', url, {}, null, 'text', callback);
 	},
 
 	DELETE: function ( url, callback ) {
-		return this.request ( 'DELETE', url, {}, null, 'text', callback );
+		return this.request('DELETE', url, {}, null, 'text', callback);
 	},
 
 	PUT: function ( url, data, callback ) {
-		return this.request ( 'PUT', url, {}, data, 'text', callback );
+		return this.request('PUT', url, {}, data, 'text', callback);
 	},
 
 	request: function ( verb, url, headers, data, type, callback ) {
 
-		var xhr = new XMLHttpRequest ();
+		var xhr = new XMLHttpRequest();
 
 		var body = function () {
 			var b = xhr.responseText;
@@ -38,26 +40,26 @@ var WebDAV = {
 		if ( callback ) {
 			xhr.onreadystatechange = function () {
 				if ( xhr.readyState == 4 ) { // complete.
-					var b = body ();
+					var b = body();
 					if ( b ) {
-						callback ( b );
+						callback(b);
 					}
 				}
 			};
 		}
 
-		xhr.open ( verb, url, Boolean ( callback ) );
+		xhr.open(verb, url, Boolean(callback));
 
-		xhr.setRequestHeader ( "Content-Type", "text/xml; charset=UTF-8" );
+		xhr.setRequestHeader("Content-Type", "text/xml; charset=UTF-8");
 
 		for ( var header in headers ) {
-			xhr.setRequestHeader ( header, headers[ header ] );
+			xhr.setRequestHeader(header, headers[ header ]);
 		}
 
-		xhr.send ( data );
+		xhr.send(data);
 
-		if ( !callback ) {
-			return body ();
+		if ( ! callback ) {
+			return body();
 		}
 	}
 };
@@ -70,20 +72,20 @@ WebDAV.Fs = function ( rootUrl ) {
 	this.file = function ( href ) {
 		this.type = 'file';
 
-		this.url = fs.urlFor ( href );
+		this.url = fs.urlFor(href);
 
-		this.name = fs.nameFor ( this.url );
+		this.name = fs.nameFor(this.url);
 
 		this.read = function ( callback ) {
-			return WebDAV.GET ( this.url, callback );
+			return WebDAV.GET(this.url, callback);
 		};
 
 		this.write = function ( data, callback ) {
-			return WebDAV.PUT ( this.url, data, callback );
+			return WebDAV.PUT(this.url, data, callback);
 		};
 
 		this.rm = function ( callback ) {
-			return WebDAV.DELETE ( this.url, callback );
+			return WebDAV.DELETE(this.url, callback);
 		};
 
 		return this;
@@ -91,14 +93,14 @@ WebDAV.Fs = function ( rootUrl ) {
 
 	this.dir = function ( href ) {
 		this.type = 'dir';
-		this.url  = fs.urlFor ( href );
-		this.name = fs.nameFor ( this.url );
+		this.url  = fs.urlFor(href);
+		this.name = fs.nameFor(this.url);
 
 		this.children = function ( callback ) {
 
 			var childrenFunc = function ( doc ) {
 
-				var entries = $ ( doc ).children ( 'd\\:response, response' ); // Double slash necessary to escape colon!
+				var entries = $(doc).children('d\\:response, response'); // Double slash necessary to escape colon!
 				var result  = [];
 
 				if ( entries.length === 0 ) {
@@ -108,18 +110,18 @@ WebDAV.Fs = function ( rootUrl ) {
 				}
 				else {
 
-					entries.each ( function ( index ) {
+					entries.each(function ( index ) {
 
-						var collection = $ ( this ).find ( "d\\:collection, collection" ); // Double slash necessary to escape colon!
-						var href       = $ ( this ).children ( 'd\\:href, href' ).first ().text ().replace ( /\/$/, '' ); // Double slash necessary to escape colon!
+						var collection = $(this).find("d\\:collection, collection"); // Double slash necessary to escape colon!
+						var href       = $(this).children('d\\:href, href').first().text().replace(/\/$/, ''); // Double slash necessary to escape colon!
 
 						if ( collection.length > 0 ) {
-							result.push ( new fs.dir ( href ) );
+							result.push(new fs.dir(href));
 						}
 						else {
-							result.push ( new fs.file ( href ) );
+							result.push(new fs.file(href));
 						}
-					} );
+					});
 
 				}
 
@@ -127,32 +129,32 @@ WebDAV.Fs = function ( rootUrl ) {
 			};
 
 			if ( callback ) {
-				WebDAV.PROPFIND ( this.url, function ( doc ) {
-					callback ( childrenFunc ( doc ) );
-				} );
+				WebDAV.PROPFIND(this.url, function ( doc ) {
+					callback(childrenFunc(doc));
+				});
 			}
 			else {
-				return childrenFunc ( WebDAV.PROPFIND ( this.url ) );
+				return childrenFunc(WebDAV.PROPFIND(this.url));
 			}
 		};
 
 		this.rm = function ( callback ) {
-			return WebDAV.DELETE ( this.url, callback );
+			return WebDAV.DELETE(this.url, callback);
 		};
 
 		this.mkdir = function ( callback ) {
-			return WebDAV.MKCOL ( this.url, callback );
+			return WebDAV.MKCOL(this.url, callback);
 		};
 
 		return this;
 	};
 
 	this.urlFor = function ( href ) {
-		return (/^http/.test ( href ) ? href : this.rootUrl + href);
+		return (/^http/.test(href) ? href : this.rootUrl + href);
 	};
 
 	this.nameFor = function ( url ) {
-		return url.replace ( /.*\/(.*)/, '$1' );
+		return url.replace(/.*\/(.*)/, '$1');
 	};
 
 	return this;

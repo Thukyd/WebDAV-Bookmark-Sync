@@ -8,13 +8,7 @@ module.exports = function ( grunt ) {
 
 		pkg: grunt.file.readJSON ( 'package.json' ),
 
-		banner: '/*!\n' +
-		' * <%= pkg.title || pkg.name %> <%= pkg.version %>\n' +
-		'<%= pkg.homepage ? " * " + pkg.homepage + "\\n" : "" %>' +
-		' * <%= pkg.description %>\n' +
-		' * <%= pkg.license %>\n *\n' +
-		' * Build: <%= grunt.template.today("yyyy-mm-dd HH:MM:ss") %>\n' +
-		' */\n',
+		banner: '/*! ' + '<%= pkg.title || pkg.name %> <%= pkg.version %> (<%= grunt.template.today("yyyy-mm-dd HH:MM:ss") %>) ' + ' */\n',
 
 		template_folder: 'template',
 		src_folder     : 'src',
@@ -58,6 +52,24 @@ module.exports = function ( grunt ) {
 
 
 		copy: {
+
+			scripts: {
+				files: [
+					{
+						expand: true,
+						cwd   : '<%= src_folder %>/js/',
+						src   : [ '**/*' ],
+						dest  : '<%= build_folder %>/chrome/data/js/'
+					},
+					{
+						expand: true,
+						cwd   : '<%= tmp_folder %>/js/',
+						src   : [ '**/*' ],
+						dest  : '<%= build_folder %>/firefox/data/js/'
+					},
+				],
+			},
+
 			images: {
 				files: [
 					{
@@ -202,24 +214,6 @@ module.exports = function ( grunt ) {
 				replacement: '<%= pkg.author.name %>',
 				recursive  : true
 			},
-			icon16     : {
-				path       : '<%= build_folder %>',
-				pattern    : '%PKG.ICON16%',
-				replacement: 'icon_16.png',
-				recursive  : true
-			},
-			icon48     : {
-				path       : '<%= build_folder %>',
-				pattern    : '%PKG.ICON48%',
-				replacement: 'icon_48.png',
-				recursive  : true
-			},
-			icon128    : {
-				path       : '<%= build_folder %>',
-				pattern    : '%PKG.ICON128%',
-				replacement: 'icon_128.png',
-				recursive  : true
-			},
 			license    : {
 				path       : '<%= build_folder %>',
 				pattern    : '%PKG.LICENSE%',
@@ -232,28 +226,6 @@ module.exports = function ( grunt ) {
 				replacement: '<%= pkg.version %>',
 				recursive  : true
 			}
-		},
-
-		uglify: {
-			options  : {
-				compress        : false,
-				mangle          : false,
-				beautify        : true,
-				preserveComments: 'all',
-				banner          : '<%=banner%>',
-				screwIE8        : true,
-			},
-			extension: {
-				src : [ '<%= src_folder %>/js/*.js' ],
-				dest: '<%= tmp_folder %>/js/contentscripts.js',
-			},
-			vendor   : {
-				options: {
-					beautify: false,
-				},
-				src    : [ '<%= src_folder %>/js/vendor/*.js' ],
-				dest   : '<%= tmp_folder %>/js/vendor.js',
-			},
 		},
 
 		watch: {
@@ -283,7 +255,7 @@ module.exports = function ( grunt ) {
 	] );
 
 	grunt.registerTask ( 'buildjs', [
-		'uglify',
+		'copy:scripts',
 	] );
 
 	grunt.registerTask ( 'buildcss', [

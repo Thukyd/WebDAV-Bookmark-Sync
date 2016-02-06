@@ -20,12 +20,16 @@
 	},
 	"background": {
 		"scripts": [
+			"data/js/vendor/jquery-2.2.0.min.js",
+			"data/js/webdav.js",
 			"main.js"
 		],
 		"persistent": true
 	},
 	"permissions": [
 		"bookmarks",
-		"tabs"
+		"tabs",
+		"http://*/*",
+		"https://*/*"
 	]
 }

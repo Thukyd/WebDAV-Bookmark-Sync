@@ -7,7 +7,7 @@
 	"author": "%PKG.AUTHOR%",
 	"description": "%PKG.DESCRIPTION%",
 	"homepage": "%PKG.HOMEPAGE%",
-	"icon": "resource://%PKG.NAME%-at-%PKG.NAME%/data/img/%PKG.ICON48%",
+	"icon": "resource://%PKG.NAME%-at-%PKG.NAME%/data/img/icon_48.png",
 	"main": "main.js",
 	"engines": {
 		"firefox": ">=38.0a1"
