@@ -1,30 +1,46 @@
 <!DOCTYPE html>
 <html>
-<head>
-    <title>%PKG.TITLE% options</title>
-</head>
-<body>
 
-<label>
-    URL
-    <input type="text" id="url">
-</label>
-<label>
-    Username
-    <input type="text" id="username">
-</label>
-<label>
-    Password
-    <input type="password" id="password">
-</label>
+    <head>
+        <meta charset="UTF-8">
+        <title>%PKG.TITLE% Settings</title>
+    </head>
 
-<div id="status"></div>
+    <body>
 
-<button id="save">Save</button>
+        <h1>%PKG.TITLE% Settings</h1>
 
+        <p>Please enter the address and login information for your WebDAV server below, and click <em>Save</em>.</p>
 
-<script src="data/js/vendor/URI-1.17.0.min.js"></script>
-<script src="data/js/vendor/jquery-2.2.0.min.js"></script>
-<script src="options.js"></script>
-</body>
+        <form>
+            <div>
+                <label>
+                    <span>URL</span>
+                    <input type="text" id="url" data-option-key="url" />
+                </label>
+            </div>
+            <div>
+                <label>
+                    <span>Username</span>
+                    <input type="text" id="username" data-option-key="username" />
+                </label>
+            </div>
+            <div>
+                <label>
+                    <span>Password</span>
+                    <input type="password" id="password" data-option-key="password" />
+                </label>
+            </div>
+
+            <div>
+                <button id="save">Save</button>
+            </div>
+
+            <div id="status"></div>
+        </form>
+
+        <script src="data/js/vendor/URI-1.17.0.min.js"></script>
+        <script src="data/js/vendor/jquery-2.2.0.min.js"></script>
+        <script src="options.js"></script>
+    </body>
 </html>
