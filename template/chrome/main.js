@@ -1,3 +1,11 @@
+/*
+ * Package:  @@name
+ * Version:  @@version
+ * Author:   @@author
+ * Modified: @@timestamp
+ */
+
+
 // Namespacing
 var com = com || {};
 	com.marklindhout = com.marklindhout || {};

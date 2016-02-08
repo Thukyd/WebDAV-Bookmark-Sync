@@ -1,6 +1,5 @@
 // A WebDAV interface that uses jQuery
 
-
 var WebDAV = {
 	GET: function ( url, callback ) {
 		return this.request('GET', url, {}, null, 'text', callback);

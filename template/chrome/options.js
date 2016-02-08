@@ -1,5 +1,8 @@
 /**
- * Created by marklindhout on 06.02.16.
+ * Packages: @@name
+ * Version: @@version
+ * Author @@author
+ * Modified: @@timestamp
  */
 
 // Namespacing

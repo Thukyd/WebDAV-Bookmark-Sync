@@ -8,7 +8,12 @@ module.exports = function ( grunt ) {
 
 		pkg: grunt.file.readJSON ( 'package.json' ),
 
-		banner: '/*! ' + '<%= pkg.title || pkg.name %> <%= pkg.version %> (<%= grunt.template.today("yyyy-mm-dd HH:MM:ss") %>) ' + ' */\n',
+		banner: '/*' + '\n' +
+			' * Package:  @@name' + '\n' +
+			' * Version:  @@version' + '\n' +
+			' * Author:   @@author' + '\n' +
+			' * Modified: @@timestamp' + '\n' +
+			' */' + '\n',
 
 		template_folder: 'template',
 		src_folder     : 'src',
@@ -206,7 +211,7 @@ module.exports = function ( grunt ) {
 						},
 						{
 							match: 'timestamp',
-							replacement: '<%= grunt.template.today() %>'
+							replacement: '<%= grunt.template.today("isoDateTime") %>'
 						},
 						{
 							match: 'license',

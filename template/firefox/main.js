@@ -1,3 +1,10 @@
+/**
+ * Packages: @@name
+ * Version: @@version
+ * Author @@author
+ * Modified: @@timestamp
+ */
+
 const Request = require ( "sdk/request" ).Request;
 const tabs    = require ( 'sdk/tabs' );
 const self    = require ( 'sdk/self' );
