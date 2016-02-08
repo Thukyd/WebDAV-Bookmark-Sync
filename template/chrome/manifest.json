@@ -1,10 +1,10 @@
 {
 	"manifest_version": 2,
-	"name": "%PKG.TITLE%",
-	"homepage_url": "%PKG.HOMEPAGE%",
-	"version": "%PKG.VERSION%",
-	"description": "%PKG.DESCRIPTION%",
-	"author": "%PKG.AUTHOR%",
+	"name": "@@title",
+	"homepage_url": "@@homepage",
+	"version": "@@version",
+	"description": "@@description",
+	"author": "@@author",
 	"icons": {
 		"128": "data/img/icon_128.png",
 		"48": "data/img/icon_48.png",
@@ -16,7 +16,7 @@
 			"48": "data/img/icon_48.png",
 			"16": "data/img/icon_16.png"
 		},
-		"default_title": "%PKG.TITLE%"
+		"default_title": "@@title"
 	},
 	"background": {
 		"scripts": [

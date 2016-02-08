@@ -183,49 +183,54 @@ module.exports = function ( grunt ) {
 			},
 		},
 
-		sed: {
-			name       : {
-				path       : '<%= build_folder %>',
-				pattern    : '%PKG.NAME%',
-				replacement: '<%= pkg.name %>',
-				recursive  : true
+
+		replace: {
+			dist: {
+				options: {
+					patterns: [
+						{
+							match: 'name',
+							replacement: '<%= pkg.name %>'
+						},
+						{
+							match: 'title',
+							replacement: '<%= pkg.title %>'
+						},
+						{
+							match: 'description',
+							replacement: '<%= pkg.description %>'
+						},
+						{
+							match: 'version',
+							replacement: '<%= pkg.version %>'
+						},
+						{
+							match: 'timestamp',
+							replacement: '<%= grunt.template.today() %>'
+						},
+						{
+							match: 'license',
+							replacement: '<%= pkg.license %>'
+						},
+						{
+							match: 'author',
+							replacement: '<%= pkg.author %>'
+						},
+						{
+							match: 'homepage',
+							replacement: '<%= pkg.homepage || "--" %>'
+						},
+					],
+				},
+				files: [
+					{
+						expand: true,
+						cwd   : '<%= build_folder %>',
+						src   : [ '**/*' ],
+						dest  :'<%= build_folder %>',
+					},
+				],
 			},
-			title      : {
-				path       : '<%= build_folder %>',
-				pattern    : '%PKG.TITLE%',
-				replacement: '<%= pkg.title %>',
-				recursive  : true
-			},
-			description: {
-				path       : '<%= build_folder %>',
-				pattern    : '%PKG.DESCRIPTION%',
-				replacement: '<%= pkg.description %>',
-				recursive  : true
-			},
-			homepage   : {
-				path       : '<%= build_folder %>',
-				pattern    : '%PKG.HOMEPAGE%',
-				replacement: '<%= pkg.homepage || "" %>',
-				recursive  : true
-			},
-			author     : {
-				path       : '<%= build_folder %>',
-				pattern    : '%PKG.AUTHOR%',
-				replacement: '<%= pkg.author.name %>',
-				recursive  : true
-			},
-			license    : {
-				path       : '<%= build_folder %>',
-				pattern    : '%PKG.LICENSE%',
-				replacement: '<%= pkg.license %>',
-				recursive  : true
-			},
-			version    : {
-				path       : '<%= build_folder %>',
-				pattern    : '%PKG.VERSION%',
-				replacement: '<%= pkg.version %>',
-				recursive  : true
-			}
 		},
 
 		watch: {
@@ -270,7 +275,7 @@ module.exports = function ( grunt ) {
 	grunt.registerTask ( 'buildaddontemplates', [
 		'copy:template_chrome',
 		'copy:template_firefox',
-		'sed',
+		'replace',
 	] );
 
 	grunt.registerTask ( 'dist', [

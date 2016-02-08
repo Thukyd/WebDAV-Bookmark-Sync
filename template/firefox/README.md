@@ -1,2 +1,2 @@
-# %PKG.TITLE% %PKG.VERSION%
-%PKG.DESCRIPTION%
+# @@title @@version
+@@description

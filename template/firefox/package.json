@@ -1,13 +1,13 @@
 {
-	"title": "%PKG.TITLE%",
-	"name": "%PKG.NAME%",
-	"id": "%PKG.NAME%@%PKG.NAME%",
-	"version": "%PKG.VERSION%",
-	"license": "%PKG.LICENSE%",
-	"author": "%PKG.AUTHOR%",
-	"description": "%PKG.DESCRIPTION%",
-	"homepage": "%PKG.HOMEPAGE%",
-	"icon": "resource://%PKG.NAME%-at-%PKG.NAME%/data/img/icon_48.png",
+	"title": "@@title",
+	"name": "@@name",
+	"id": "@@name@@@name",
+	"version": "@@version",
+	"license": "@@license",
+	"author": "@@author",
+	"description": "@@description",
+	"homepage": "@@homepage",
+	"icon": "resource://@@name-at-@@name/data/img/icon_48.png",
 	"main": "main.js",
 	"engines": {
 		"firefox": ">=38.0a1"

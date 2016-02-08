@@ -4,7 +4,7 @@ var com = com || {};
 
 // The extension itself
 com.marklindhout.wdbms = {
-	name: '%PKG.TITLE%',
+	name: '@@title',
 	browser: 'Chrome',
 	max_bookmarks_age: 1000 * 60 * 5, // 5 minutes
 
@@ -89,11 +89,11 @@ com.marklindhout.wdbms = {
 
 			var has_folder = false;
 
-			chrome.bookmarks.search({ url: null, title: '%PKG.TITLE%' }, function ( children ) {
+			chrome.bookmarks.search({ url: null, title: '@@title' }, function ( children ) {
 				for ( var i = 0; i < children.length; i ++ ) {
 					var item = children[ i ];
 
-					if ( item.title === '%PKG.TITLE%' ) {
+					if ( item.title === '@@title' ) {
 						has_folder = true;
 					}
 				}
@@ -105,12 +105,12 @@ com.marklindhout.wdbms = {
 		has_extension_bookmark_folder(function ( has_folder ) {
 
 			if ( ! has_folder ) {
-				chrome.bookmarks.create({ title: '%PKG.TITLE%', parentId: '1', index: 0, url: null }, function () {
-					console.log('Folder for %PKG.TITLE% created.');
+				chrome.bookmarks.create({ title: '@@title', parentId: '1', index: 0, url: null }, function () {
+					console.log('Folder for @@title created.');
 				});
 			}
 			else {
-				console.log('%PKG.TITLE% folder already exists');
+				console.log('@@title folder already exists');
 			}
 		});
 

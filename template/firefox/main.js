@@ -6,8 +6,8 @@ const { Bookmark, Group, save } = require("sdk/places/bookmarks");
 
 
 let button = new Button ( {
-	id     : '%PKG.NAME%',
-	label  : '%PKG.TITLE%',
+	id     : '@@name',
+	label  : '@@title',
 	icon   : {
 		'128': self.data.url ( 'img/icon_128.png' ),
 		'48' : self.data.url ( 'img/icon_48.png' ),
