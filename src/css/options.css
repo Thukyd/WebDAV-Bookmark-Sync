@@ -59,7 +59,15 @@
 	float: left;
 	margin: 0;
 	padding: 1em;
+	border: 1px solid #666666;
+	border-radius:0.25em;
+	box-shadow: inset 0.2em 0.2em 0.5em 0em #999999;
 }
+
+.form .field:focus {
+	box-shadow: inset 0.2em 0.2em 0.5em 0em #999999, 0em 0em 1em #0000dd;
+}
+
 
 .form .field.text {
 }
@@ -107,6 +115,8 @@
 	line-height: 1.33em;
 	padding: 1em;
 	box-shadow: #888888 2px 2px 8px;
+	border-radius:0.5em;
+	font-weight: bold;
 }
 
 .message.error {
@@ -118,5 +128,5 @@
 .message.info {
 	border: 2px solid #6060ff;
 	background-color: #cacaff;
-	color: #272752;
+	color: #4c4cb3;
 }

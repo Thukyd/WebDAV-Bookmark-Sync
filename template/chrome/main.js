@@ -7,26 +7,46 @@
 
 
 // Namespacing
-var com = com || {};
-	com.marklindhout = com.marklindhout || {};
+var com          = com || {};
+com.marklindhout = com.marklindhout || {};
 
 // The extension itself
 com.marklindhout.wdbms = {
-	name: '@@title',
-	browser: 'Chrome',
+	name             : '@@title',
+	browser          : 'Chrome',
 	max_bookmarks_age: 1000 * 60 * 5, // 5 minutes
 
-	webdav: {
+	storage: {
 
-		get_credentials: function (callback) {
+		get: function ( callback ) {
 			chrome.storage.sync.get(null, function ( obj ) {
-				callback(obj);
+				try{
+					callback(obj);
+				}
+				catch (error) {
+					console.log(error);
+				}
 			});
 		},
 
-		put: function (callback) {
+		set: function ( options_object, callback ) {
+			chrome.storage.sync.set(options_object, function () {
+				try{
+					callback(obj);
+				}
+				catch (error) {
+					console.log(error);
+				}
+			});
+		}
 
-			com.marklindhout.wdbms.webdav.get_credentials( function (credentials) {
+	},
+
+	webdav: {
+
+		put: function ( callback ) {
+
+			com.marklindhout.wdbms.storage.get(function ( credentials ) {
 
 				if ( credentials ) {
 					$.ajax({
@@ -44,7 +64,8 @@ com.marklindhout.wdbms = {
 					 .fail(function () {
 						 throw new Error('Writing of bookmarks failed.')
 					 });
-				} else {
+				}
+				else {
 					throw new Error('No credentials found');
 				}
 
@@ -52,11 +73,11 @@ com.marklindhout.wdbms = {
 
 		},
 
-		get: function (callback) {
+		get: function ( callback ) {
 
-			com.marklindhout.wdbms.webdav.get_credentials( function (credentials) {
+			com.marklindhout.wdbms.storage.get(function ( credentials ) {
 
-				if ( credentials ) {
+				if ( credentials.url ) {
 
 					$.ajax({
 						 method     : 'GET',
@@ -64,21 +85,37 @@ com.marklindhout.wdbms = {
 						 username   : credentials.username,
 						 password   : credentials.password,
 						 async      : true,
-						 crossDomain: true
-					 })
-					 .done( function ( data ) {
-						 callback( data );
-					 })
-					 .fail( function () {
-						 throw new Error('Retrieval of bookmarks failed.')
+						 crossDomain: true,
+						 dataType   : 'json',
+						 jsonp      : false,
+						 cache      : false,
+						 statusCode: {
+							 404: function() {
+								 throw new Error( '@@title: ' + 'Retrieval of bookmarks failed. There is an error in the given URL.');
+							 },
+							 401: function() {
+								 throw new Error( '@@title: ' + 'Retrieval of bookmarks failed: Authorization failed.');
+							 }
+						 },
+						success: function ( data ) {
+							try{
+								callback(data);
+							}
+							catch (error) {
+								throw new Error(error);
+							}
+						},
+						error: function (jqxhr, status, error) {
+							throw new Error( '@@title: ' +  status + ', ' + error );
+						}
 					 });
 
-				} else {
-					throw new Error('No credentials found');
+				}
+				else {
+					throw new Error( '@@title: ' + 'No WebDAV URL found.');
 				}
 
 			});
-
 		}
 
 	},
@@ -89,7 +126,7 @@ com.marklindhout.wdbms = {
 
 	},
 
-	on_install_handler: function (info) {
+	on_install_handler: function ( info ) {
 
 		if ( info.reason === 'install' ) {
 			// Show the WebDAV settings page
@@ -109,7 +146,13 @@ com.marklindhout.wdbms = {
 					has_folder = true;
 				}
 			}
-			callback(has_folder);
+
+			try{
+				callback(has_folder);
+			}
+			catch (error) {
+				throw new Error(error);
+			}
 		});
 	},
 
@@ -118,21 +161,23 @@ com.marklindhout.wdbms = {
 		com.marklindhout.wdbms.has_extension_bookmark_folder(function ( has_folder ) {
 			if ( ! has_folder ) {
 				chrome.bookmarks.create({ title: '@@title', parentId: '1', index: 0, url: null }, function () {
-					console.log('Folder for @@title created.');
+					console.log('@@title folder created.');
 				});
 			}
 			else {
-				console.log('@@title folder already exists');
+				console.log('@@title folder present.');
 			}
+
+
+			// Retrieve the remote bookmarks file
+			com.marklindhout.wdbms.webdav.get(function ( data ) {
+				console.log(data);
+			});
 		});
 	},
 
-	init : function () {
-//		com.marklindhout.wdbms.check_local_bookmarks_age();
-
-		com.marklindhout.wdbms.webdav.get(function (data) {
-			console.log(data);
-		});
+	init: function () {
+		com.marklindhout.wdbms.check_local_bookmarks_age();
 	}
 };
 
@@ -142,7 +187,7 @@ chrome.runtime.onInstalled.addListener(function ( info ) {
 
 });
 
-chrome.browserAction.onClicked.addListener( function (){
+chrome.browserAction.onClicked.addListener(function () {
 
 	com.marklindhout.wdbms.on_browser_button_click_handler();
 

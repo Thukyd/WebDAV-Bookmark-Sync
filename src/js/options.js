@@ -21,6 +21,22 @@ com.marklindhout.wdbms.options = {
 
 	options_form: $('#options'),
 
+	storage: {
+
+		get: function ( callback ) {
+			chrome.storage.sync.get(null, function ( obj ) {
+				callback(obj);
+			});
+		},
+
+		set: function ( options_object, callback ) {
+			chrome.storage.sync.set(options_object, function () {
+				callback();
+			});
+		}
+
+	},
+
 	show_message: function (type, message) {
 
 		var is_valid = false;
@@ -72,12 +88,13 @@ com.marklindhout.wdbms.options = {
 		for ( index in allowed_options ) {
 
 			var option = allowed_options[index];
+			var value = $('#' + option).val();
 
-			options_object[ option ] = $('#' + option).val() || false;
+			options_object[ option ] = ( value ? value : '' );
 		}
 
 		try {
-			chrome.storage.sync.set(options_object, function () {
+			com.marklindhout.wdbms.options.storage.set(options_object, function () {
 				com.marklindhout.wdbms.options.show_status_message('Options saved.');
 			});
 		}
@@ -89,7 +106,7 @@ com.marklindhout.wdbms.options = {
 
 	restore_from_storage: function () {
 
-		chrome.storage.sync.get(null, function ( obj ) {
+		com.marklindhout.wdbms.options.storage.get(function ( obj ) {
 
 			var allowed_options = com.marklindhout.wdbms.options.allowed_options;
 
@@ -106,7 +123,12 @@ com.marklindhout.wdbms.options = {
 	},
 
 	init: function () {
-		com.marklindhout.wdbms.options.restore_from_storage();
+		try {
+			com.marklindhout.wdbms.options.restore_from_storage();
+		}
+		catch (error) {
+			com.marklindhout.wdbms.options.show_error_message(error);
+		}
 	}
 
 };
