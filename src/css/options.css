@@ -1,12 +1,7 @@
-* {
-	box-sizing: border-box;
-}
-
 .form {
 	position: relative;
 	display: block;
 	width: 100%;
-	max-width: 480px;
 	float: left;
 	margin: 1em auto;
 	padding: 2em;
@@ -26,20 +21,37 @@
 	border-top: 1px solid #dddddd;
 }
 
-.form .label {
+.form label {
 	display: block;
 	width: 100%;
 	float: left;
 	margin: 0;
 	padding: 1em 0;
-	font-weight: bold;
 }
 
-.form .description {
+.form label .title {
+	display: block;
+	font-weight: bold;
+	float: left;
+}
+
+.form label .description {
 	display: block;
 	font-style: italic;
+	float: right;
 }
 
+.form label .example {
+	width: 100%;
+	text-align: center;
+	display: block;
+	border-radius: 0.25em;
+	border: 1px solid #aaaaaa;
+	background-color: #dddddd;
+	padding:0.25em 0.5em;
+	margin: 0.5em 0;
+	float: left;
+}
 
 .form .field {
 	display: block;
@@ -49,17 +61,19 @@
 	padding: 1em;
 }
 
-.form .field.text {}
+.form .field.text {
+}
 
 .form .button {
 	display: block;
-	width: 33%;
-	float: right;
 	margin: 0.5em 0;
 	padding: 1em;
 }
 
-.form .button.submit {}
+.form .button.submit {
+	width: 33%;
+	float: right;
+}
 
 .form .meta {
 	display: block;
@@ -78,14 +92,14 @@
 	position: absolute;
 	top: 0;
 	left: 0;
-	right:0;
+	right: 0;
 }
 
 .message {
 	position: absolute;
 	top: 4px;
 	left: 4px;
-	right:4px;
+	right: 4px;
 	display: block;
 	border: 2px solid #666666;
 	background-color: #cccccc;

@@ -11,37 +11,43 @@
         Modified: @@timestamp
     -->
 
-    <link rel="stylesheet" href="../css/options.css"/>
+    <link rel="stylesheet" href="../css/vendor/normalize.css" />
+    <link rel="stylesheet" href="../css/base.css" />
+    <link rel="stylesheet" href="../css/options.css" />
 
     <title>@@title Settings</title>
 </head>
 
 <body>
 
-<h1>@@title Settings</h1>
 
-<p>Please enter the address and login information for your WebDAV server below, and click <em>Save</em>.</p>
+<h1>@@title</h1>
 
 <form class="form" id="options">
+
+    <h2>WebDAV Settings</h2>
+
     <div class="form-item">
         <label>
-            <span class="label">URL</span>
+            <span class="title">URL</span>
             <span class="description">Full WebDAV URL to your bookmarks file.</span>
             <input class="field text" type="text" id="url" data-option-key="url"/>
             <span class="example"><strong>Example:</strong> <code>http://server.tld/remote.php/webdav/bookmarks.json</code></span>
         </label>
     </div>
+
     <div class="form-item">
         <label>
-            <span class="label">Username</span>
-            <span class="description">Your username (used for HTTP-Authetification).</span>
+            <span class="title">Username</span>
+            <span class="description">Your username for HTTP-Authentification.</span>
             <input class="field text" type="text" id="username" data-option-key="username"/>
         </label>
     </div>
+
     <div class="form-item">
         <label>
-            <span class="label">Password</span>
-            <span class="description">Your password (used for HTTP-Authetification).</span>
+            <span class="title">Password</span>
+            <span class="description">Your password for HTTP-Authentification.</span>
             <input class="field text" type="password" id="password" data-option-key="password"/>
         </label>
     </div>

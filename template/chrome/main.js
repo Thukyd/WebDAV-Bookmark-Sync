@@ -32,22 +32,11 @@ com.marklindhout.wdbms = {
 					$.ajax({
 						 method     : 'PUT',
 						 url        : credentials.url,
-						 data       : 'Hi there! This is test content put here by a XHR!',
-						 async      : true,
-						 crossDomain: true,
 						 username   : credentials.username,
 						 password   : credentials.password,
-						 statusCode : {
-							 200: function () {
-								 console.log('request success');
-							 },
-							 401: function () {
-								 console.log('not authorized');
-							 },
-							 404: function () {
-								 console.log('page not found');
-							 }
-						 }
+						 data       : com.marklindhout.wdbms.get_local_bookmarks(),
+						 async      : true,
+						 crossDomain: true
 					 })
 					 .done(function ( data ) {
 						 callback(data);
@@ -72,24 +61,13 @@ com.marklindhout.wdbms = {
 					$.ajax({
 						 method     : 'GET',
 						 url        : credentials.url,
-						 async      : true,
-						 crossDomain: true,
 						 username   : credentials.username,
 						 password   : credentials.password,
-						 statusCode : {
-							 200: function () {
-								 console.log('request success');
-							 },
-							 401: function () {
-								 console.log('not authorized');
-							 },
-							 404: function () {
-								 console.log('page not found');
-							 }
-						 }
+						 async      : true,
+						 crossDomain: true
 					 })
 					 .done( function ( data ) {
-						 callback( JSON.parse(data) );
+						 callback( data );
 					 })
 					 .fail( function () {
 						 throw new Error('Retrieval of bookmarks failed.')
