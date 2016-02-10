@@ -34,5 +34,5 @@
 		"http://*/*",
 		"https://*/*"
 	],
-	"options_page": "options.html"
+	"options_page": "data/html/options.html"
 }

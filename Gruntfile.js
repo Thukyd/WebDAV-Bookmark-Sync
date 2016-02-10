@@ -1,19 +1,19 @@
 module.exports = function ( grunt ) {
 
 	// Load all installed Grunt modules
-	require ( 'load-grunt-tasks' ) ( grunt );
+	require('load-grunt-tasks')(grunt);
 
 	// Task Configuration
-	grunt.initConfig ( {
+	grunt.initConfig({
 
-		pkg: grunt.file.readJSON ( 'package.json' ),
+		pkg: grunt.file.readJSON('package.json'),
 
 		banner: '/*' + '\n' +
-			' * Package:  @@name' + '\n' +
-			' * Version:  @@version' + '\n' +
-			' * Author:   @@author' + '\n' +
-			' * Modified: @@timestamp' + '\n' +
-			' */' + '\n',
+		' * Package:  @@name' + '\n' +
+		' * Version:  @@version' + '\n' +
+		' * Author:   @@author' + '\n' +
+		' * Modified: @@timestamp' + '\n' +
+		' */' + '\n',
 
 		template_folder: 'template',
 		src_folder     : 'src',
@@ -29,7 +29,7 @@ module.exports = function ( grunt ) {
 		},
 
 		compress: {
-			chrome: {
+			chrome : {
 				options: {
 					archive: function () {
 						return grunt.config.data.build_folder + '/chrome/' + grunt.config.data.pkg.name + '-' + grunt.config.data.pkg.version + '.zip'
@@ -80,13 +80,13 @@ module.exports = function ( grunt ) {
 					{
 						expand: true,
 						cwd   : '<%= tmp_folder %>/img/',
-						src   : [ '**' ],
+						src   : [ '**/*' ],
 						dest  : '<%= build_folder %>/chrome/data/img/'
 					},
 					{
 						expand: true,
 						cwd   : '<%= tmp_folder %>/img/',
-						src   : [ '**' ],
+						src   : [ '**/*' ],
 						dest  : '<%= build_folder %>/firefox/data/img/'
 					},
 				],
@@ -97,14 +97,31 @@ module.exports = function ( grunt ) {
 					{
 						expand: true,
 						cwd   : '<%= src_folder %>/css/',
-						src   : [ '**' ],
+						src   : [ '**/*' ],
 						dest  : '<%= build_folder %>/chrome/data/css/'
 					},
 					{
 						expand: true,
 						cwd   : '<%= src_folder %>/css/',
-						src   : [ '**' ],
+						src   : [ '**/*' ],
 						dest  : '<%= build_folder %>/firefox/data/css/'
+					},
+				],
+			},
+
+			html: {
+				files: [
+					{
+						expand: true,
+						cwd   : '<%= src_folder %>/html/',
+						src   : [ '**/*' ],
+						dest  : '<%= build_folder %>/chrome/data/html/'
+					},
+					{
+						expand: true,
+						cwd   : '<%= src_folder %>/html/',
+						src   : [ '**/*' ],
+						dest  : '<%= build_folder %>/firefox/data/html/'
 					},
 				],
 			},
@@ -114,13 +131,13 @@ module.exports = function ( grunt ) {
 					{
 						expand: true,
 						cwd   : '<%= template_folder %>/chrome/',
-						src   : [ '**' ],
+						src   : [ '**/*' ],
 						dest  : '<%= build_folder %>/chrome/'
 					},
 					{
 						expand: true,
 						cwd   : '<%= tmp_folder %>',
-						src   : [ '**' ],
+						src   : [ '**/*' ],
 						dest  : '<%= build_folder %>/chrome/data/'
 					}
 				]
@@ -131,13 +148,13 @@ module.exports = function ( grunt ) {
 					{
 						expand: true,
 						cwd   : '<%= template_folder %>/firefox/',
-						src   : [ '**' ],
+						src   : [ '**/*' ],
 						dest  : '<%= build_folder %>/firefox/'
 					},
 					{
 						expand: true,
 						cwd   : '<%= tmp_folder %>',
-						src   : [ '**' ],
+						src   : [ '**/*' ],
 						dest  : '<%= build_folder %>/firefox/data/'
 					}
 				]
@@ -194,102 +211,108 @@ module.exports = function ( grunt ) {
 				options: {
 					patterns: [
 						{
-							match: 'name',
+							match      : 'name',
 							replacement: '<%= pkg.name %>'
 						},
 						{
-							match: 'title',
+							match      : 'title',
 							replacement: '<%= pkg.title %>'
 						},
 						{
-							match: 'description',
+							match      : 'description',
 							replacement: '<%= pkg.description %>'
 						},
 						{
-							match: 'version',
+							match      : 'version',
 							replacement: '<%= pkg.version %>'
 						},
 						{
-							match: 'timestamp',
+							match      : 'timestamp',
 							replacement: '<%= grunt.template.today("isoDateTime") %>'
 						},
 						{
-							match: 'license',
+							match      : 'license',
 							replacement: '<%= pkg.license %>'
 						},
 						{
-							match: 'author',
+							match      : 'author',
 							replacement: '<%= pkg.author %>'
 						},
 						{
-							match: 'homepage',
+							match      : 'homepage',
 							replacement: '<%= pkg.homepage || "--" %>'
 						},
 					],
 				},
-				files: [
+				files  : [
 					{
 						expand: true,
 						cwd   : '<%= build_folder %>',
 						src   : [ '**/*' ],
-						dest  :'<%= build_folder %>',
+						dest  : '<%= build_folder %>',
 					},
 				],
 			},
 		},
 
 		watch: {
-			options          : {
+			options: {
 				spawn: false,
 			},
-			src              : {
+			src    : {
 				files: [ '<%= src_folder %>/**/*', '<%= template_folder %>/**/*' ],
 				tasks: [ 'buildall' ],
 			},
 		},
 
-	} );
+	});
 
 	// Task Registration
-	grunt.registerTask ( 'default', [
-		'buildall'
-	] );
+	grunt.registerTask('default', [
+		'buildall',
+		'watch',
+	]);
 
-	grunt.registerTask ( 'buildall', [
+	grunt.registerTask('buildall', [
 		'clean:all',
 		'buildjs',
 		'buildcss',
 		'buildimg',
+		'buildhtml',
 		'buildaddontemplates',
 		'clean:tmp',
-	] );
+	]);
 
-	grunt.registerTask ( 'buildjs', [
+	grunt.registerTask('buildjs', [
 		'copy:scripts',
-	] );
+	]);
 
-	grunt.registerTask ( 'buildcss', [
+	grunt.registerTask('buildcss', [
 		'copy:css',
-	] );
+	]);
 
-	grunt.registerTask ( 'buildimg', [
+	grunt.registerTask('buildimg', [
 		'image_resize',
 		'copy:images',
-	] );
+	]);
 
-	grunt.registerTask ( 'buildaddontemplates', [
+	grunt.registerTask('buildhtml', [
+		'copy:html',
+	]);
+
+	grunt.registerTask('buildaddontemplates', [
 		'copy:template_chrome',
 		'copy:template_firefox',
 		'replace',
-	] );
+	]);
 
-	grunt.registerTask ( 'dist', [
+	grunt.registerTask('dist', [
 		'buildall',
 		'compress:chrome',
 		'compress:firefox',
 		'copy:dist_chrome',
 		'copy:dist_firefox',
 		'clean:tmp',
-	] );
+	]);
 
 };

@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+
+    <!--
+        Package:  @@name
+        Version:  @@version
+        Author:   @@author
+        Modified: @@timestamp
+    -->
+
+    <link rel="stylesheet" href="../css/options.css"/>
+
+    <title>@@title Settings</title>
+</head>
+
+<body>
+
+<h1>@@title Settings</h1>
+
+<p>Please enter the address and login information for your WebDAV server below, and click <em>Save</em>.</p>
+
+<form class="form" id="options">
+    <div class="form-item">
+        <label>
+            <span class="label">URL</span>
+            <span class="description">Full WebDAV URL to your bookmarks file.</span>
+            <input class="field text" type="text" id="url" data-option-key="url"/>
+            <span class="example"><strong>Example:</strong> <code>http://server.tld/remote.php/webdav/bookmarks.json</code></span>
+        </label>
+    </div>
+    <div class="form-item">
+        <label>
+            <span class="label">Username</span>
+            <span class="description">Your username (used for HTTP-Authetification).</span>
+            <input class="field text" type="text" id="username" data-option-key="username"/>
+        </label>
+    </div>
+    <div class="form-item">
+        <label>
+            <span class="label">Password</span>
+            <span class="description">Your password (used for HTTP-Authetification).</span>
+            <input class="field text" type="password" id="password" data-option-key="password"/>
+        </label>
+    </div>
+
+    <div class="form-item">
+        <button class="button submit" id="save">Save</button>
+    </div>
+
+    <div class="meta">
+        @@name @@version (@@timestamp) - @@author
+    </div>
+
+</form>
+
+
+<script src="../js/vendor/URI-1.17.0.min.js"></script>
+<script src="../js/vendor/jquery-2.2.0.min.js"></script>
+<script src="../js/options.js"></script>
+</body>
+</html>

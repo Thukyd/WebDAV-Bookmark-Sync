@@ -19,13 +19,44 @@ com.marklindhout.wdbms.options = {
 		'password'
 	],
 
-	show_status_message: function (message) {
+	options_form: $('#options'),
+
+	show_message: function (type, message) {
+
+		var is_valid = false;
 		var $s = $('#status');
-		$s.hide();
-		$s.text( message );
-		$s.fadeIn()
-		  .delay(750)
-		  .fadeOut();
+
+		if ($s.length === 0) {
+			com.marklindhout.wdbms.options.options_form.append('<div id="status" />');
+			$s = $('#status');
+		}
+
+		if (type === 'info') {
+			is_valid = true;
+		}
+
+		else
+		if (type === 'error') {
+			is_valid = true;
+		}
+
+		if (is_valid) {
+			$s.append('<div class="message ' + type + '">' + message + '</div>');
+
+			$s.fadeIn()
+			  .delay(750)
+			  .fadeOut(function () {
+				  $(this).children('.message').remove();
+			  });
+		}
+	},
+
+	show_status_message: function (message) {
+		com.marklindhout.wdbms.options.show_message('info', message);
+	},
+
+	show_error_message: function (message) {
+		com.marklindhout.wdbms.options.show_message('error', message);
 	},
 
 	is_allowed_option: function (option_name) {
@@ -45,9 +76,14 @@ com.marklindhout.wdbms.options = {
 			options_object[ option ] = $('#' + option).val() || false;
 		}
 
-		chrome.storage.sync.set(options_object, function () {
-			com.marklindhout.wdbms.options.show_status_message('Options saved.')
-		});
+		try {
+			chrome.storage.sync.set(options_object, function () {
+				com.marklindhout.wdbms.options.show_status_message('Options saved.');
+			});
+		}
+		catch (error) {
+			com.marklindhout.wdbms.options.show_error_message(error);
+		}
 
 	},
 

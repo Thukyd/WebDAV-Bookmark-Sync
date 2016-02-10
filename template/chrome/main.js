@@ -18,61 +18,89 @@ com.marklindhout.wdbms = {
 
 	webdav: {
 
-		put: function (url, username, password) {
-			$.ajax({
-				 method     : 'PUT',
-				 url        : url,
-				 data       : 'Hi there! This is test content put here by a XHR!',
-				 async      : true,
-				 crossDomain: true,
-				 username   : username,
-				 password   : password,
-				 statusCode : {
-					 200: function () {
-						 console.log('request success');
-					 },
-					 401: function () {
-						 console.log('not authorized');
-					 },
-					 404: function () {
-						 console.log('page not found');
-					 }
-				 },
-			 })
-			 .done(function ( data ) {
-				 console.log(data);
-			 })
-			 .fail(function () {
-				 throw new Error('Writing of bookmarks failed.')
-			 });
+		get_credentials: function (callback) {
+			chrome.storage.sync.get(null, function ( obj ) {
+				callback(obj);
+			});
 		},
 
-		get: function () {
-			$.ajax({
-				 method     : 'GET',
-				 url        : url,
-				 async      : true,
-				 crossDomain: true,
-				 username   : username,
-				 password   : password,
-				 statusCode : {
-					 200: function () {
-						 console.log('request success');
-					 },
-					 401: function () {
-						 console.log('not authorized');
-					 },
-					 404: function () {
-						 console.log('page not found');
-					 }
-				 },
-			 })
-			 .done(function ( data ) {
-				 console.log(JSON.parse(data));
-			 })
-			 .fail(function () {
-				throw new Error('Retrieval of bookmarks failed.')
-			 });
+		put: function (callback) {
+
+			com.marklindhout.wdbms.webdav.get_credentials( function (credentials) {
+
+				if ( credentials ) {
+					$.ajax({
+						 method     : 'PUT',
+						 url        : credentials.url,
+						 data       : 'Hi there! This is test content put here by a XHR!',
+						 async      : true,
+						 crossDomain: true,
+						 username   : credentials.username,
+						 password   : credentials.password,
+						 statusCode : {
+							 200: function () {
+								 console.log('request success');
+							 },
+							 401: function () {
+								 console.log('not authorized');
+							 },
+							 404: function () {
+								 console.log('page not found');
+							 }
+						 }
+					 })
+					 .done(function ( data ) {
+						 callback(data);
+					 })
+					 .fail(function () {
+						 throw new Error('Writing of bookmarks failed.')
+					 });
+				} else {
+					throw new Error('No credentials found');
+				}
+
+			});
+
+		},
+
+		get: function (callback) {
+
+			com.marklindhout.wdbms.webdav.get_credentials( function (credentials) {
+
+				if ( credentials ) {
+
+					$.ajax({
+						 method     : 'GET',
+						 url        : credentials.url,
+						 async      : true,
+						 crossDomain: true,
+						 username   : credentials.username,
+						 password   : credentials.password,
+						 statusCode : {
+							 200: function () {
+								 console.log('request success');
+							 },
+							 401: function () {
+								 console.log('not authorized');
+							 },
+							 404: function () {
+								 console.log('page not found');
+							 }
+						 }
+					 })
+					 .done( function ( data ) {
+						 callback( JSON.parse(data) );
+					 })
+					 .fail( function () {
+						 throw new Error('Retrieval of bookmarks failed.')
+					 });
+
+				} else {
+					throw new Error('No credentials found');
+				}
+
+			});
+
 		}
 
 	},
@@ -91,27 +119,25 @@ com.marklindhout.wdbms = {
 
 	},
 
+	has_extension_bookmark_folder: function ( callback ) {
+
+		var has_folder = false;
+
+		chrome.bookmarks.search({ url: null, title: '@@title' }, function ( children ) {
+			for ( var i = 0; i < children.length; i ++ ) {
+				var item = children[ i ];
+
+				if ( item.title === '@@title' ) {
+					has_folder = true;
+				}
+			}
+			callback(has_folder);
+		});
+	},
+
 	on_browser_button_click_handler: function () {
 
-		var has_extension_bookmark_folder = function ( callback ) {
-
-			var has_folder = false;
-
-			chrome.bookmarks.search({ url: null, title: '@@title' }, function ( children ) {
-				for ( var i = 0; i < children.length; i ++ ) {
-					var item = children[ i ];
-
-					if ( item.title === '@@title' ) {
-						has_folder = true;
-					}
-				}
-				callback(has_folder);
-			});
-		};
-
-
-		has_extension_bookmark_folder(function ( has_folder ) {
-
+		com.marklindhout.wdbms.has_extension_bookmark_folder(function ( has_folder ) {
 			if ( ! has_folder ) {
 				chrome.bookmarks.create({ title: '@@title', parentId: '1', index: 0, url: null }, function () {
 					console.log('Folder for @@title created.');
@@ -121,16 +147,14 @@ com.marklindhout.wdbms = {
 				console.log('@@title folder already exists');
 			}
 		});
-
-
-
-
 	},
 
 	init : function () {
+//		com.marklindhout.wdbms.check_local_bookmarks_age();
 
-		com.marklindhout.wdbms.check_local_bookmarks_age();
-
+		com.marklindhout.wdbms.webdav.get(function (data) {
+			console.log(data);
+		});
 	}
 };
 
@@ -144,4 +168,8 @@ chrome.browserAction.onClicked.addListener( function (){
 
 	com.marklindhout.wdbms.on_browser_button_click_handler();
 
+});
+
+$(document).ready(function () {
+	com.marklindhout.wdbms.init();
 });

@@ -1,0 +1,108 @@
+* {
+	box-sizing: border-box;
+}
+
+.form {
+	position: relative;
+	display: block;
+	width: 100%;
+	max-width: 480px;
+	float: left;
+	margin: 1em auto;
+	padding: 2em;
+	background-color: #efefef;
+	border: 1px outset #dddddd;
+	box-shadow: #666666 2px 2px 6px;
+}
+
+.form .form-item {
+	display: block;
+	width: 100%;
+	clear: both;
+	float: left;
+	margin-top: 0.5em;
+	padding-top: 0.5em;
+	line-height: 24px;
+	border-top: 1px solid #dddddd;
+}
+
+.form .label {
+	display: block;
+	width: 100%;
+	float: left;
+	margin: 0;
+	padding: 1em 0;
+	font-weight: bold;
+}
+
+.form .description {
+	display: block;
+	font-style: italic;
+}
+
+
+.form .field {
+	display: block;
+	width: 100%;
+	float: left;
+	margin: 0;
+	padding: 1em;
+}
+
+.form .field.text {}
+
+.form .button {
+	display: block;
+	width: 33%;
+	float: right;
+	margin: 0.5em 0;
+	padding: 1em;
+}
+
+.form .button.submit {}
+
+.form .meta {
+	display: block;
+	float: left;
+	width: 100%;
+	margin: 2em 0 0 0;
+	font-size: 75%;
+	color: #666666;
+	text-align: center;
+}
+
+#status {
+	display: none;
+	float: left;
+	width: 100%;
+	position: absolute;
+	top: 0;
+	left: 0;
+	right:0;
+}
+
+.message {
+	position: absolute;
+	top: 4px;
+	left: 4px;
+	right:4px;
+	display: block;
+	border: 2px solid #666666;
+	background-color: #cccccc;
+	color: #333333;
+	line-height: 1.33em;
+	padding: 1em;
+	box-shadow: #888888 2px 2px 8px;
+}
+
+.message.error {
+	border: 2px solid #ff6060;
+	background-color: #ffcaca;
+	color: #882222;
+}
+
+.message.info {
+	border: 2px solid #6060ff;
+	background-color: #cacaff;
+	color: #272752;
+}
