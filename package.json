@@ -29,7 +29,6 @@
     "grunt-contrib-uglify": "^0.9.1",
     "grunt-contrib-watch": "^0.6.1",
     "grunt-exec": "^0.4.6",
-    "grunt-image-resize": "^1.0.0",
     "grunt-replace": "^0.11.0",
     "load-grunt-tasks": "^3.1.0"
   }

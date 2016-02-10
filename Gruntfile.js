@@ -79,13 +79,13 @@ module.exports = function ( grunt ) {
 				files: [
 					{
 						expand: true,
-						cwd   : '<%= tmp_folder %>/img/',
+						cwd   : '<%= src_folder %>/img/',
 						src   : [ '**/*' ],
 						dest  : '<%= build_folder %>/chrome/data/img/'
 					},
 					{
 						expand: true,
-						cwd   : '<%= tmp_folder %>/img/',
+						cwd   : '<%= src_folder %>/img/',
 						src   : [ '**/*' ],
 						dest  : '<%= build_folder %>/firefox/data/img/'
 					},
@@ -175,37 +175,6 @@ module.exports = function ( grunt ) {
 			},
 		},
 
-		image_resize: {
-			options : {
-				overwrite: true,
-			},
-			icon_16 : {
-				options: {
-					width : 16,
-					height: 16,
-				},
-				src    : '<%= src_folder %>/img/icon.png',
-				dest   : '<%= tmp_folder %>/img/icon_16.png',
-			},
-			icon_48 : {
-				options: {
-					width : 48,
-					height: 48,
-				},
-				src    : '<%= src_folder %>/img/icon.png',
-				dest   : '<%= tmp_folder %>/img/icon_48.png',
-			},
-			icon_128: {
-				options: {
-					width : 128,
-					height: 128,
-				},
-				src    : '<%= src_folder %>/img/icon.png',
-				dest   : '<%= tmp_folder %>/img/icon_128.png',
-			},
-		},
-
-
 		replace: {
 			dist: {
 				options: {
@@ -248,7 +217,7 @@ module.exports = function ( grunt ) {
 					{
 						expand: true,
 						cwd   : '<%= build_folder %>',
-						src   : [ '**/*' ],
+						src   : [ '**/*', '!**/*.{png,gif,jpg,ico,psd,ttf,otf,woff,svg}' ],
 						dest  : '<%= build_folder %>',
 					},
 				],
@@ -275,9 +244,9 @@ module.exports = function ( grunt ) {
 
 	grunt.registerTask('buildall', [
 		'clean:all',
+		'buildimg',
 		'buildjs',
 		'buildcss',
-		'buildimg',
 		'buildhtml',
 		'buildaddontemplates',
 		'clean:tmp',
@@ -292,7 +261,6 @@ module.exports = function ( grunt ) {
 	]);
 
 	grunt.registerTask('buildimg', [
-		'image_resize',
 		'copy:images',
 	]);
 
