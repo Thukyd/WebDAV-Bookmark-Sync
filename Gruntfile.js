@@ -236,7 +236,6 @@ module.exports = function ( grunt ) {
 
 	});
 
-	// Task Registration
 	grunt.registerTask('default', [
 		'buildall',
 		'watch',

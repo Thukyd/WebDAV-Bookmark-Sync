@@ -178,6 +178,10 @@ com.marklindhout.wdbms = {
 
 	init: function () {
 		com.marklindhout.wdbms.check_local_bookmarks_age();
+		com.marklindhout.wdbms.webdav.get(function (data) {
+			console.log(data);
+		});
+
 	}
 };
 
